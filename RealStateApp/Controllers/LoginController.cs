@@ -139,7 +139,8 @@ namespace RealStateApp.Controllers
         {
             return role.ToUpper() switch
             {
-                "ADMIN" => RedirectToRoute(new { controller = "Home", action = "Index" , area="Administration"}),
+                "ADMIN" => RedirectToAction("Index", "Home", new { area = "Administration" })
+,
                 "AGENT" => RedirectToRoute(new { area = "Agents", controller = "Home", action = "Index" }),
                 "CLIENT" => RedirectToRoute(new { area = "Clients", controller = "Home", action = "Index" }),
                 _ => RedirectToRoute(new { controller = "Login", action = "Index" })

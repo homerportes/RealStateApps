@@ -62,7 +62,6 @@
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
 
-            <!-- PASSWORD SIEMPRE REQUERIDO -->
             <div class="mb-3">
                 <label asp-for="Password" class="form-label fw-semibold"></label>
                 <input asp-for="Password" type="password" class="form-control input-soft" />
@@ -90,9 +89,15 @@
     <partial name="_ValidationScriptsPartial" />
 
     <script>
+        // Ocultar tarjeta al escribir
         $(document).on("input", "input", function () {
-            $(".error-card").fadeOut();
+            $(".error-card").fadeOut(200);
         });
+
+        // Ocultar después de 4 segundos
+        setTimeout(function () {
+            $(".error-card").fadeOut(200);
+        }, 4000);
     </script>
 }
 

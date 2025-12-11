@@ -6,38 +6,52 @@ namespace RealStateApp.Core.Application.ViewModels.User
     {
         public string? Id { get; set; }
 
+        // --- Datos de acceso ---
         [Required(ErrorMessage = "El nombre de usuario es requerido.")]
+        [Display(Name = "Nombre de usuario")]
         public required string UserName { get; set; }
 
         [Required(ErrorMessage = "El correo es requerido.")]
         [EmailAddress(ErrorMessage = "Debe ser un correo válido.")]
+        [Display(Name = "Correo electrónico")]
         public required string Email { get; set; }
 
         public bool IsVerified { get; set; }
 
+        // --- Datos personales ---
         [Required(ErrorMessage = "El nombre es requerido.")]
+        [Display(Name = "Nombre")]
         public required string FirstName { get; set; }
 
         [Required(ErrorMessage = "El apellido es requerido.")]
+        [Display(Name = "Apellido")]
         public required string LastName { get; set; }
 
+        [Required(ErrorMessage = "El DNI es requerido.")]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "El DNI debe contener exactamente 11 dígitos numéricos.")]
+        [Display(Name = "Cédula / DNI")]
+        public required string Dni { get; set; }
+
+        // --- Contraseña ---
         [Required(ErrorMessage = "La contraseña es requerida.")]
-        [MinLength(8, ErrorMessage = "Debe tener al menos 8 caracteres.")]
+        [MinLength(8, ErrorMessage = "La contraseña debe tener al menos 8 caracteres.")]
         [RegularExpression(
             @"^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"",.<>/?]).+$",
-            ErrorMessage = "Debe contener una mayúscula, un número y un carácter especial.")]
+            ErrorMessage = "La contraseña debe contener una mayúscula, un número y un carácter especial."
+        )]
+        [Display(Name = "Contraseña")]
         public required string Password { get; set; }
 
         [Required(ErrorMessage = "Debe confirmar la contraseña.")]
         [Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
+        [Display(Name = "Confirmar contraseña")]
         public required string ConfirmPassword { get; set; }
 
-        [Required(ErrorMessage = "El DNI es requerido.")]
-        [RegularExpression(@"^\d{11}$", ErrorMessage = "Debe contener 11 dígitos numéricos.")]
-        public required string Dni { get; set; }
+        // --- Otros ---
+        [Display(Name = "Rol")]
+        public string? Role { get; set; }
 
-        public required string Role { get; set; }
-
+        [Display(Name = "Activo")]
         public bool IsActive { get; set; }
     }
 }

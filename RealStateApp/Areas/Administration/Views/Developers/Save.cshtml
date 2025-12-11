@@ -1,8 +1,10 @@
-﻿@using RealStateApp.Core.Application.ViewModels.User
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@using RealStateApp.Core.Application.ViewModels.User
 @model SaveBasicUserViewModel
 
 @{
-    Layout = "_AdminLayout";
+    Layout = "_Layout";
 
     bool isEdit = !string.IsNullOrEmpty(Model.Id);
     string title = isEdit ? "Editar desarrollador" : "Crear desarrollador";
@@ -10,39 +12,60 @@
 
 <div class="container mt-5" style="max-width: 600px;">
     <h3 class="mb-4 text-muted fw-light">@title</h3>
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger error-card shadow-sm" style="border-radius: 0.75rem;">
+            <strong>Error:</strong> @ViewBag.ErrorMessage
+        </div>
+    }
 
-    <form asp-action="@(isEdit ? "Edit" : "Create")"
-          asp-controller="Developers"
-          method="post">
+    <form method="post"
+          action="/administracion/desarrolladores/@(isEdit ? "editar" : "crear")">
 
+        <input asp-for="Id" type="hidden" />
+
+
+        <!-- Mostrar errores generales -->
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <!-- FIRST NAME -->
         <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input asp-for="FirstName" class="form-control" required />
+            <label asp-for="FirstName" class="form-label"></label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
         </div>
 
+        <!-- LAST NAME -->
         <div class="mb-3">
-            <label class="form-label">Apellido</label>
-            <input asp-for="LastName" class="form-control" required />
+            <label asp-for="LastName" class="form-label"></label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
         </div>
 
+        <!-- DNI -->
         <div class="mb-3">
-            <label class="form-label">Cédula</label>
-            <input asp-for="Dni" class="form-control" required />
+            <label asp-for="Dni" class="form-label"></label>
+            <input asp-for="Dni" class="form-control" />
+            <span asp-validation-for="Dni" class="text-danger"></span>
         </div>
 
+        <!-- EMAIL -->
         <div class="mb-3">
-            <label class="form-label">Correo</label>
-            <input asp-for="Email" type="email" class="form-control" required />
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
+        <!-- USERNAME -->
         <div class="mb-3">
-            <label class="form-label">Usuario</label>
-            <input asp-for="UserName" class="form-control" required />
+            <label asp-for="UserName" class="form-label"></label>
+            <input asp-for="UserName" class="form-control" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
         </div>
 
         <!-- PASSWORD -->
         <div class="mb-3">
-            <label class="form-label">Contraseña</label>
+            <label asp-for="Password" class="form-label"></label>
 
             @if (isEdit)
             {
@@ -50,13 +73,15 @@
             }
             else
             {
-                <input asp-for="Password" type="password" class="form-control" required />
+                <input asp-for="Password" type="password" class="form-control" />
             }
+
+            <span asp-validation-for="Password" class="text-danger"></span>
         </div>
 
         <!-- CONFIRM PASSWORD -->
         <div class="mb-3">
-            <label class="form-label">Confirmar Contraseña</label>
+            <label asp-for="ConfirmPassword" class="form-label"></label>
 
             @if (isEdit)
             {
@@ -64,8 +89,10 @@
             }
             else
             {
-                <input asp-for="ConfirmPassword" type="password" class="form-control" required />
+                <input asp-for="ConfirmPassword" type="password" class="form-control" />
             }
+
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
         </div>
 
         <div class="d-flex justify-content-between mt-4">
@@ -74,8 +101,26 @@
                 @(isEdit ? "Guardar" : "Crear")
             </button>
         </div>
+
     </form>
+
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Ocultar tarjeta al escribir
+        $(document).on("input", "input", function () {
+            $(".error-card").fadeOut(200);
+        });
+
+        // Ocultar después de 4 segundos
+        setTimeout(function () {
+            $(".error-card").fadeOut(200);
+        }, 4000);
+    </script>
+}
 
 <style>
     .container form {

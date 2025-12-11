@@ -22,11 +22,9 @@ namespace RealStateApp.Infraestructure.Persistence.Repositories
         public virtual async Task<Entity?> AddAsync(Entity entity)
         {
             if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+          throw new ArgumentNullException();
 
-
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+        
 
 
             await _context.Set<Entity>().AddAsync(entity);
@@ -58,6 +56,8 @@ namespace RealStateApp.Infraestructure.Persistence.Repositories
         {
             return await _context.Set<Entity>().FindAsync(id);
         }
+
+
 
 
 

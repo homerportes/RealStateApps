@@ -66,7 +66,7 @@ public class AdministratorsController : Controller
 
         if (result.HasError)
         {
-            ViewBag.ErrorMessage = string.Join(", ", result.Errors ?? new List<string>());
+            ViewBag.ErrorMessage = result.Errors.First();
             return View("Save", vm);
         }
 
@@ -98,32 +98,26 @@ public class AdministratorsController : Controller
 
         if (result.HasError)
         {
-            foreach (var error in result.Errors ?? new List<string>())
-            {
-                ModelState.AddModelError("", error);
-            }
+            ViewBag.ErrorMessage = result.Errors.First();
             return View("Save", vm);
         }
 
         return RedirectToAction("Index");
     }
 
-    [HttpGet("administradores/desactivar/{id}")]
     public IActionResult Deactivate(string id)
     {
         ViewBag.IsActivateMode = false;
         return View("ChangeState", id);
     }
 
-    [HttpGet("administradores/activar/{id}")]
     public IActionResult Activate(string id)
     {
         ViewBag.IsActivateMode = true;
         return View("ChangeState", id);
     }
 
-    // ACTIVAR / DESACTIVAR
-    [HttpPost("administradores/toggle/{id}")]
+    [HttpPost("{id}")]
     public async Task<IActionResult> ToggleState(string id)
     {
         await _administrationService.ToogleState(id);

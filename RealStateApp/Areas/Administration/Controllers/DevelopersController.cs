@@ -54,7 +54,7 @@ namespace RealStateApp.Areas.Administration.Controllers
 
             if (result.HasError)
             {
-                ViewBag.ErrorMessage = string.Join(", ", result.Errors ?? new List<string>());
+                ViewBag.ErrorMessage = result.Errors.First();
                 return View("Save", vm);
             }
 
@@ -81,8 +81,13 @@ namespace RealStateApp.Areas.Administration.Controllers
                 return View("Save", vm);
 
             var dto = _mapper.Map<SaveUserDto>(vm);
-            await _accountService.EditUser(dto);
+           var result= await _accountService.EditUser(dto);
+            if (result.HasError)
+            {
+                ViewBag.ErrorMessage = result.Errors.First();
+                return View("Save", vm);
 
+            }
             return RedirectToAction("Index");
         }
 

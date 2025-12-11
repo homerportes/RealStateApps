@@ -1,37 +1,71 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using RealStateApp.Core.Application.Dtos.Properties;
+﻿using MediatR;
 using RealStateApp.Core.Application.Exceptions;
 using RealStateApp.Core.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RealStateApp.Core.Application.Features.PropertyType.Commands.Create
 {
-    public class CreatePropertyTypeCommand: IRequest<int>
+    /// <summary>
+    /// Comando para crear un nuevo PropertyType
+    /// </summary>
+    /// <remarks>
+    /// Ejemplo de request:
+    /// POST /api/v1/propertytypes
+    /// {
+    ///    "name": "Casa",
+    ///    "description": "Propiedad residencial"
+    /// }
+    /// 
+    /// Respuesta exitosa:
+    /// 201 Created
+    /// {
+    ///   "id": 1
+    /// }
+    /// 
+    /// Respuesta si ocurre error:
+    /// 500 Internal Server Error
+    /// {
+    ///   "message": "Error creating Property Type"
+    /// }
+    /// </remarks>
+    public class CreatePropertyTypeCommand : IRequest<int>
     {
+        /// <summary>
+        /// Nombre del tipo de propiedad
+        /// </summary>
+        /// <example>Casa</example>
         public required string Name { get; set; }
+
+        /// <summary>
+        /// Descripción del tipo de propiedad
+        /// </summary>
+        /// <example>Propiedad residencial</example>
         public required string Description { get; set; }
     }
 
-   
+    /// <summary>
+    /// Handler del comando CreatePropertyTypeCommand
+    /// </summary>
     public class CreatePropertyTypeCommandHandler : IRequestHandler<CreatePropertyTypeCommand, int>
     {
-        private IPropertyTypeRepository _repository;
+        private readonly IPropertyTypeRepository _repository;
 
         public CreatePropertyTypeCommandHandler(IPropertyTypeRepository repository)
         {
             _repository = repository;
-         
         }
+
+        /// <summary>
+        /// Ejecuta la creación de un PropertyType
+        /// </summary>
+        /// <param name="request">Datos del PropertyType</param>
+        /// <param name="cancellationToken">Token de cancelación</param>
+        /// <returns>Id del PropertyType creado</returns>
+        /// <exception cref="ApiException">Si ocurre un error al crear la entidad</exception>
         public async Task<int> Handle(CreatePropertyTypeCommand request, CancellationToken cancellationToken)
         {
-
             var entity = await _repository.AddAsync(new Domain.Entities.PropertyType
             {
                 Description = request.Description,
@@ -39,8 +73,10 @@ namespace RealStateApp.Core.Application.Features.PropertyType.Commands.Create
                 Id = 0
             });
 
-            if (entity == null) throw new  ApiException("Error creating Property Type", HttpStatusCode.InternalServerError);
-         return entity.Id;
+            if (entity == null)
+                throw new ApiException("Error creating Property Type", HttpStatusCode.InternalServerError);
+
+            return entity.Id;
         }
     }
 }

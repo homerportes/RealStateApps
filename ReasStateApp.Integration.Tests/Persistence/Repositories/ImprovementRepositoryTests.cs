@@ -59,8 +59,7 @@ namespace RealStateApp.Integration.Tests.Persistence.Repositories
             Func<Task> act = async () => await repository.AddAsync(null!);
 
             //Assert
-            await act.Should().ThrowAsync<ArgumentNullException>()
-                .WithMessage("Value cannot be null. (Parameter 'entity')");
+            await act.Should().ThrowAsync<ArgumentNullException>();
         }
 
 

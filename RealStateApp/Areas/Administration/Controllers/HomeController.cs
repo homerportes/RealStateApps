@@ -21,6 +21,8 @@ namespace RealStateApp.Areas.Administration.Controllers
             _administrationService = administrationService;
             _mapper = mapper;
         }
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
           var statsDto= await _administrationService.GetAdminStats();

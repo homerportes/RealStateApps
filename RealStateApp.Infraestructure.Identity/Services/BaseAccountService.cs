@@ -151,28 +151,7 @@ namespace RealStateApp.Infraestructure.Identity.Services
                 Errors = []
             };
 
-            // Validación de username duplicado
-            var userWithSameUserName = await _userManager.Users
-                .FirstOrDefaultAsync(w => w.UserName == saveDto.UserName && w.Id != saveDto.Id);
-
-            if (userWithSameUserName != null)
-            {
-                response.HasError = true;
-                response.Errors.Add($"The username '{saveDto.UserName}' is already taken.");
-                return response;
-            }
-
-            // Validación de email duplicado
-            var userWithSameEmail = await _userManager.Users
-                .FirstOrDefaultAsync(w => w.Email == saveDto.Email && w.Id != saveDto.Id);
-
-            if (userWithSameEmail != null)
-            {
-                response.HasError = true;
-                response.Errors.Add($"The email '{saveDto.Email}' is already taken.");
-                return response;
-            }
-
+            // Obtener el usuario que se está editando
             var user = await _userManager.FindByIdAsync(saveDto.Id ?? "");
 
             if (user == null)
@@ -182,6 +161,32 @@ namespace RealStateApp.Infraestructure.Identity.Services
                 return response;
             }
 
+            // Guardar el ID real del usuario para evitar problemas si saveDto.Id es null o vacío
+            string currentUserId = user.Id;
+
+            // Validación de username duplicado (asegurar que no sea él mismo)
+            var userWithSameUserName = await _userManager.Users
+                .FirstOrDefaultAsync(w => w.UserName == saveDto.UserName && w.Id != currentUserId);
+
+            if (userWithSameUserName != null)
+            {
+                response.HasError = true;
+                response.Errors.Add($"El nombre de usuario '{saveDto.UserName}' ya está asociado a otra cuenta");
+                return response;
+            }
+
+            // Validación de email duplicado (evitar comparar con sí mismo)
+            var userWithSameEmail = await _userManager.Users
+                .FirstOrDefaultAsync(w => w.Email == saveDto.Email && w.Id != currentUserId);
+
+            if (userWithSameEmail != null)
+            {
+                response.HasError = true;
+                response.Errors.Add($"El correo '{saveDto.Email}' ya está asociado a otra cuenta");
+                return response;
+            }
+
+            // Actualizar datos
             user.FirstName = saveDto.FirstName;
             user.LastName = saveDto.LastName;
             user.UserName = saveDto.UserName;
@@ -189,20 +194,18 @@ namespace RealStateApp.Infraestructure.Identity.Services
             user.Dni = saveDto.Dni;
 
             if (saveDto.Photo != null)
-            {
                 user.Photo = saveDto.Photo;
 
-            }
-
+            // Cambiar contraseña solo si no es creación
             if (!string.IsNullOrWhiteSpace(saveDto.Password) && isNotCreated)
             {
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var resultChange = await _userManager.ResetPasswordAsync(user, token, saveDto.Password);
 
-                if (resultChange != null && !resultChange.Succeeded)
+                if (!resultChange.Succeeded)
                 {
                     response.HasError = true;
-                    response.Errors.AddRange(resultChange.Errors.Select(s => s.Description).ToList());
+                    response.Errors.AddRange(resultChange.Errors.Select(s => s.Description));
                     return response;
                 }
             }
@@ -212,17 +215,18 @@ namespace RealStateApp.Infraestructure.Identity.Services
             if (!result.Succeeded)
             {
                 response.HasError = true;
-                response.Errors.AddRange(result.Errors.Select(s => s.Description).ToList());
+                response.Errors.AddRange(result.Errors.Select(s => s.Description));
                 return response;
             }
 
-
+            // Respuesta final
             response.Id = user.Id;
             response.Email = user.Email ?? "";
             response.UserName = user.UserName ?? "";
             response.Name = user.FirstName;
             response.LastName = user.LastName;
             response.IsVerified = user.EmailConfirmed;
+
             return response;
         }
 
