@@ -61,6 +61,7 @@ namespace RealStateApp.Core.Application.LayerConfigurations
             //Propertytpe
 
             services.AddValidatorsFromAssembly(typeof(CreatePropertyTypeCommandValidator).Assembly);
+            services.AddValidatorsFromAssembly(typeof(DeletePropertyTypeCommandValidator).Assembly);
             services.AddValidatorsFromAssembly(typeof(EditPropertyTypeCommandValidator).Assembly);
 
             services.AddValidatorsFromAssembly(typeof(GetPropertyTypeByIdQueryValidator).Assembly);

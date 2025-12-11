@@ -31,7 +31,7 @@ namespace RealStateApp.Core.Application.ViewModels.User
         [StringLength(11, MinimumLength = 11, ErrorMessage = "La cédula/DNI debe tener exactamente 11 dígitos.")]
         [RegularExpression(@"^\d+$", ErrorMessage = "La cédula/DNI debe contener solo números.")]
         [Display(Name = "Cédula / DNI")]
-        public required string Dni { get; set; }
+        public string Dni { get; set; } = string.Empty;
 
         // --- Contraseña ---
         [Required(ErrorMessage = "La contraseña es requerida.")]
