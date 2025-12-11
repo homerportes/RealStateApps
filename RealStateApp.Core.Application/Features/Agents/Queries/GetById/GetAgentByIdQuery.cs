@@ -33,7 +33,7 @@ namespace RealStateApp.Core.Application.Features.Agents.Queries.GetById
             if (userBase == null) 
                 throw new ApiException($"Agent not found with Id: {request.Id}");
 
-            var PropertiesCount = await _propertyRepository.GetAgentPropertiesCount(request.Id);
+            var PropertiesCount = await _propertyRepository.GetAgentPropertiesCount(request.Id!);
 
             var dto = _mapper.Map<AgentDto>(userBase);
             dto.PropertiesCount = PropertiesCount;

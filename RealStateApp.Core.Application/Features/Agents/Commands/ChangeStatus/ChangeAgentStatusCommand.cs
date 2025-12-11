@@ -26,6 +26,8 @@ namespace RealStateApp.Core.Application.Features.Agents.Commands.ChangeStatus
         }
         public async Task<Unit> Handle(ChangeAgentStatusCommand request, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrEmpty(request.Id))
+                throw new ApiException("Agent Id is required", HttpStatusCode.BadRequest);
 
             var operationStatus= await _userService.SetStatus(request.Id, request.Status);
 

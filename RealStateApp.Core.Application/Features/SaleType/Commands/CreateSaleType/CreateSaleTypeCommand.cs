@@ -41,7 +41,7 @@ namespace RealStateApp.Core.Application.Features.SaleType.Commands.CreateSaleTyp
 
             if (entity == null)
                 throw new ApiException("Error creating sale type", (int)HttpStatusCode.InternalServerError);
-            return entity.Id;
+            return entity!.Id;
         }
     }
 

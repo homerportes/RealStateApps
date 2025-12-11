@@ -1,43 +1,23 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RealStateApp.Core.Application.Features.Improvement.Commands.CreateImprovement;
-using RealStateApp.Core.Application.Features.Improvement.Commands.DeleteImprovement;
-using RealStateApp.Core.Application.Features.Improvement.Commands.EditImprovement;
-using RealStateApp.Core.Application.Features.Improvement.Queries.GetAllWithInclude;
-using RealStateApp.Core.Application.Features.Improvement.Queries.GetById;
-using RealStateApp.Core.Application.Features.Property.Commands.CreateProperty;
+using RealStateApp.Core.Application.Features.PropertyType.Commands.Create;
 using RealStateApp.Core.Application.Features.PropertyType.Commands.Delete;
 using RealStateApp.Core.Application.Features.PropertyType.Commands.Edit;
 using RealStateApp.Core.Application.Features.PropertyType.Queries.GetAllWithInclude;
+using RealStateApp.Core.Application.Features.PropertyType.Queries.GetById;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Net.Mime;
 
 namespace RealStateWebApi.Controllers.v1
 {
     [SwaggerTag("PropertyTypes CRUD")]
-
     public class PropertyTypesController : BaseApiController
     {
-
-        /*
-        [HttpGet]
-
-        [Consumes(MediaTypeNames.Application.Json)]
-        [SwaggerOperation(
-          Summary = "Listado",
-            Description = "Retorna el listado"
-            )]
-       
-        */
-
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
         [Authorize(Roles = "ADMIN")]
-        public async Task<IActionResult> Create(CreatePropertyCommand command)
+        public async Task<IActionResult> Create(CreatePropertyTypeCommand command)
         {
 
             var response = await Mediator.Send(command);
@@ -87,14 +67,12 @@ namespace RealStateWebApi.Controllers.v1
         }
 
         [HttpGet("{Id}")]
-
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-
         public async Task<IActionResult> GetById([FromRoute] int Id)
         {
-            var response = await Mediator.Send(new GetImprovementByIdQuery() { Id = Id });
+            var response = await Mediator.Send(new GetPropertyTypeByIdQuery() { Id = Id });
             if (response == null) return NoContent();
             return Ok(response);
         }

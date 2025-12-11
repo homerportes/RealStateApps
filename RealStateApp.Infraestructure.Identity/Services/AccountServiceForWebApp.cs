@@ -151,7 +151,7 @@ namespace RealStateApp.Infraestructure.Identity.Services
         {
 
             var user = await _userManager.Users
-                .Where(r => r.UserName.Replace("-", "").Replace(" ", "") == name)
+                .Where(r => r.UserName!.Replace("-", "").Replace(" ", "") == name)
                 .FirstOrDefaultAsync();
 
             if (user == null)

@@ -65,7 +65,7 @@ namespace RealStateApp.Infraestructure.Identity.Seeds
 
             foreach (var agent in agents)
             {
-                var _user = await userManager.FindByEmailAsync(agent.Email);
+                var _user = await userManager.FindByEmailAsync(agent.Email!);
                 if (_user == null)
                 {
                     await userManager.CreateAsync(agent, "Agent123!");

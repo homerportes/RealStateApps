@@ -17,17 +17,14 @@ using System.Threading.Tasks;
 namespace RealStateApp.Infraestructure.Identity.Services
 {
     public class IdentityUserService : IUserService
-
     {
-        private readonly IdentityContext _context;
         private UserManager<AppUser> _userManager;
         private readonly IdentityContext _identityContext;
+        
         public IdentityUserService(UserManager<AppUser> userManager, IdentityContext identityDbContext, IHttpContextAccessor context)
         {
             _userManager = userManager;
             _identityContext = identityDbContext;
-            _identityContext = identityDbContext;
-
         }
 
         public virtual async Task<UserResponseDto> DeleteAsync(string id)
@@ -88,8 +85,8 @@ namespace RealStateApp.Infraestructure.Identity.Services
                 return null;
             }
 
-            var rolesList = await _userManager.GetRolesAsync(user);
-            var role = EnumMapper<AppRoles>.FromString(rolesList.First());
+            var rolesList = await _userManager.GetRolesAsync(user!);
+            var role = EnumMapper<AppRoles>.FromString(rolesList.First()!);
 
             var userDto = new UserDto()
             {
