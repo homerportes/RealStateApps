@@ -46,7 +46,7 @@ namespace RealStateApp.Core.Application.Features.Property.Queries.GetByCode
                 .FirstOrDefaultAsync(p => p.Code == request.Code, cancellationToken);
 
             if (property == null)
-                throw new ArgumentException("El código de la propiedad es inválido");
+                return null;
 
             var dto = _mapper.Map<PropertyApiDto>(property);
             

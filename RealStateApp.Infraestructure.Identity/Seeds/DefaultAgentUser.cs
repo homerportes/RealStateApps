@@ -22,7 +22,7 @@ namespace RealStateApp.Infraestructure.Identity.Seeds
             var user = await userManager.FindByEmailAsync(defaultUser.Email);
             if (user == null)
             {
-                await userManager.CreateAsync(defaultUser, "Agent123!");
+                await userManager.CreateAsync(defaultUser, "123Pa$$word!");
                 await userManager.AddToRoleAsync(defaultUser, AppRoles.AGENT.ToString());
             }
 

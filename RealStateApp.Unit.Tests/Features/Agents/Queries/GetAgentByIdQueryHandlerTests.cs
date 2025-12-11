@@ -106,7 +106,7 @@ namespace RealStateApp.Unit.Tests.Features.Agents.Queries
                 _handler.Handle(query, CancellationToken.None)
             );
 
-            Assert.Equal("Agent not found with this Id", ex.Message);
+            Assert.Equal("Agent not found with Id", ex.Message);
             _userServiceMock.Verify(s => s.GetById(agentId), Times.Once);
         }
     }

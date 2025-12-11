@@ -46,7 +46,7 @@ namespace RealStateApp.Core.Application.Features.Property.Queries.GetById
                 .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
 
             if (property == null)
-                throw new ArgumentException("El id de la propiedad es inválido");
+                return null;
 
             var dto = _mapper.Map<PropertyApiDto>(property);
             

@@ -72,7 +72,7 @@ namespace RealStateApp.Core.Application.Features.Agents.Queries.GetById
             var userBase = await _userService.GetById(request.Id ?? "");
 
             if (userBase == null)
-                throw new ApiException("Agent not found with this Id");
+                throw new ApiException("Agent not found with Id");
 
             // Obtener el conteo de propiedades del agente
             var propertiesCount = await _propertyRepository.GetAgentPropertiesCount(request.Id);

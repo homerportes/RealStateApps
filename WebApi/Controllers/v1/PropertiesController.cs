@@ -42,12 +42,12 @@ namespace RealStateWebApi.Controllers.v1
         /// <param name="id">Id de la propiedad</param>
         /// <returns>Datos de la propiedad en formato JSON</returns>
         /// <response code="200">Retorna los datos de la propiedad</response>
-        /// <response code="204">No existe la propiedad con ese Id</response>
+        /// <response code="404">No existe la propiedad con ese Id</response>
         /// <response code="500">Error interno del servidor</response>
         [HttpGet("{id}")]
         [Authorize(Roles = "ADMIN,DEVELOPER")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
@@ -55,7 +55,7 @@ namespace RealStateWebApi.Controllers.v1
             
             if (response == null)
             {
-                return NoContent();
+                return NotFound(new { message = $"No existe la propiedad con el Id {id}" });
             }
 
             return Ok(response);
@@ -67,12 +67,12 @@ namespace RealStateWebApi.Controllers.v1
         /// <param name="code">Código de la propiedad (6 caracteres alfanuméricos)</param>
         /// <returns>Datos de la propiedad en formato JSON</returns>
         /// <response code="200">Retorna los datos de la propiedad</response>
-        /// <response code="204">No existe la propiedad con ese código</response>
+        /// <response code="404">No existe la propiedad con ese código</response>
         /// <response code="500">Error interno del servidor</response>
         [HttpGet("code/{code}")]
         [Authorize(Roles = "ADMIN,DEVELOPER")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetByCode([FromRoute] string code)
         {
@@ -80,7 +80,7 @@ namespace RealStateWebApi.Controllers.v1
             
             if (response == null)
             {
-                return NoContent();
+                return NotFound(new { message = $"No existe la propiedad con el código {code}" });
             }
 
             return Ok(response);

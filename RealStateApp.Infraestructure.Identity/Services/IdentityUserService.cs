@@ -72,12 +72,13 @@ namespace RealStateApp.Infraestructure.Identity.Services
 
             return false;
         }
+
         public async Task<UserDto?> GetByDni(string dni)
         {
             var cleanDocumentId = dni?.Trim().Replace("-", "").Replace(" ", "") ?? "";
 
             var user = await _userManager.Users
-                .Where(r => r.Dni.Replace("-", "").Replace(" ", "") == cleanDocumentId)
+                .Where(r => r.Dni != null && r.Dni.Replace("-", "").Replace(" ", "") == cleanDocumentId)
                 .FirstOrDefaultAsync();
 
             if (user == null)
@@ -95,7 +96,7 @@ namespace RealStateApp.Infraestructure.Identity.Services
                 LastName = user.LastName,
                 FirstName = user.FirstName,
                 UserName = user.UserName ?? "",
-                Dni = user.Dni!,
+                Dni = user.Dni,
                 IsVerified = user.EmailConfirmed,
                 IsActive = user.IsActive,
                 Role = EnumMapper<AppRoles>.ToString(role)
@@ -103,7 +104,6 @@ namespace RealStateApp.Infraestructure.Identity.Services
 
             return userDto;
         }
-
 
         public async Task<IList<AgentDto>> GetUsersAgentOnly(Dictionary<string, int> dictionary)
         {
@@ -133,7 +133,7 @@ namespace RealStateApp.Infraestructure.Identity.Services
                 .Select(user => new UserDto
                 {
                     Id = user.Id,
-                    Dni = user.Dni!,
+                    Dni = user.Dni,
                     Email = user.Email!,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
@@ -233,7 +233,7 @@ namespace RealStateApp.Infraestructure.Identity.Services
                 LastName = user.LastName,
                 FirstName = user.FirstName,
                 UserName = user.UserName ?? "",
-                Dni = user.Dni!,
+                Dni = user.Dni,
                 IsVerified = user.EmailConfirmed,
                 IsActive = user.IsActive,
                 Role = EnumMapper<AppRoles>.ToString(role)
