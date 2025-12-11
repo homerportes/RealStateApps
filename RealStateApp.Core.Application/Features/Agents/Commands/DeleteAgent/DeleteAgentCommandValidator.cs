@@ -7,6 +7,9 @@ namespace RealStateApp.Core.Application.Features.Agents.Commands.DeleteAgent
         public DeleteAgentCommandValidator()
         {
             RuleFor(r => r.Id)
+                .NotNull()
+                .WithMessage("Agent ID is required")
+
                 .NotEmpty()
                 .WithMessage("Agent ID is required")
                 .Must(id => Guid.TryParse(id, out _))

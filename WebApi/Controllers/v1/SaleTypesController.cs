@@ -28,6 +28,8 @@ namespace RealStateWebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(Summary = "Crea un nuevo tipo de venta",
+            Description = "Crea un nuevo tipo de venta y devuelve su Id")]
         public async Task<IActionResult> Create([FromBody] CreateSaleTypeCommand command)
         {
             var response = await Mediator.Send(command);
@@ -44,6 +46,8 @@ namespace RealStateWebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(Summary = "Actualiza un tipo de venta existente",
+            Description = "Actualiza un tipo de venta existente con los datos proporcionados")]
         public async Task<IActionResult> Update(int id, [FromBody] EditSaleTypeCommand command)
         {
             if (id != command.Id)
@@ -60,6 +64,8 @@ namespace RealStateWebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(Summary = "Obtiene todos los tipos de venta",
+            Description = "Devuelve una lista de todos los tipos de venta disponibles")]
         public async Task<IActionResult> GetAllList()
         {
             var response = await Mediator.Send(new GetAllSaleTypeWithIncludeQuery());
@@ -77,6 +83,8 @@ namespace RealStateWebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(Summary = "Obtiene un tipo de venta por Id",
+            Description = "Devuelve los detalles de un tipo de venta específico según su Id")]  
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var response = await Mediator.Send(new GetSaleTypeByIdQuery { Id = id });
@@ -94,6 +102,8 @@ namespace RealStateWebApi.Controllers.v1
         [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(Summary = "Elimina un tipo de venta",
+            Description = "Elimina un tipo de venta específico según su Id")]       
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             await Mediator.Send(new DeleteSaleTypeCommand { Id = id });

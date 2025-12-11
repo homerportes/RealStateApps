@@ -8,6 +8,10 @@ namespace RealStateApp.Core.Application.Features.Agents.Commands.ChangeStatus
         public ChangeAgentStatusCommandValidator()
         {
             RuleFor(r => r.Id)
+                .NotNull ()
+                .WithMessage("Id is required")
+
+
               .NotEmpty()
               .WithMessage("Id is required")
               .Must(id => Guid.TryParse(id, out _))

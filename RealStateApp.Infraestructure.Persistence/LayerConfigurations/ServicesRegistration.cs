@@ -25,6 +25,8 @@ namespace RealStateApp.Infraestructure.Persistence.LayerConfigurations
                         config.GetConnectionString("DefaultConnection"),
                         m => m.MigrationsAssembly(typeof(RealStateContext).Assembly.FullName)));
             }
+
+
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<IPropertyTypeRepository, PropertyTypeRepository>();

@@ -1,8 +1,15 @@
 ﻿using MediatR;
 using RealStateApp.Core.Application.Exceptions;
 using RealStateApp.Core.Domain.Interfaces;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
 using System.Net;
 using System.Threading;
+
 using System.Threading.Tasks;
 
 namespace RealStateApp.Core.Application.Features.PropertyType.Commands.Edit
@@ -73,7 +80,10 @@ namespace RealStateApp.Core.Application.Features.PropertyType.Commands.Edit
             var getEntity = await _repository.GetByIdAsync(request.Id);
 
             if (getEntity == null)
-                throw new ApiException("Property type not found with this id", (int)HttpStatusCode.NotFound);
+                throw new ApiException("Property type not found with this id",(int)HttpStatusCode.NotFound);
+
+              
+
 
             var entity = new Domain.Entities.PropertyType
             {

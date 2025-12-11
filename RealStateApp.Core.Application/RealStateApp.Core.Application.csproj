@@ -39,8 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Property\Commands\EditProperty\" />
-    <Folder Include="Features\Property\Commands\DeleteProperty\" />
+    <Folder Include="Features\Property\Commands\" />
     <Folder Include="Features\Property\Queries\GetAllWithInclude\" />
     <Folder Include="Features\Property\Queries\GetAll\" />
     <Folder Include="Features\Property\Queries\GetById\" />

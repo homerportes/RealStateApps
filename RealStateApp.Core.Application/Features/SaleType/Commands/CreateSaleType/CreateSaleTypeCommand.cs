@@ -69,6 +69,7 @@ namespace RealStateApp.Core.Application.Features.SaleType.Commands.CreateSaleTyp
         /// <exception cref="ApiException">Si ocurre un error al crear el tipo de venta</exception>
         public async Task<int> Handle(CreateSaleTypeCommand request, CancellationToken cancellationToken)
         {
+
             // Crear la entidad
             Domain.Entities.SaleType entity = new()
             {

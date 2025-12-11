@@ -12,9 +12,13 @@ namespace RealStateApp.Core.Application.Features.Login.Commands
         public LoginCommandValidator()
             {
                 RuleFor(d => d.Username)
+                    .NotNull().WithMessage("Username is required")
+
                     .NotEmpty().WithMessage("Username is required");
 
                 RuleFor(d => d.Password)
+                    .NotNull().WithMessage("Password is required")
+
                     .NotEmpty().WithMessage("Password is required");
             }
         

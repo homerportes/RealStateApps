@@ -11,6 +11,7 @@ namespace RealStateApp.Core.Application.Features.Improvement.Commands.DeleteImpr
     {
         public DeleteImprovementCommandValidator()
         {
+
             RuleFor(st => st.Id)
            .NotNull()
            .WithMessage("Id is required")

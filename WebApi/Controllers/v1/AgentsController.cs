@@ -26,6 +26,8 @@ namespace RealStateWebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(Summary = "Obtiene la lista completa de agentes",
+                          Description = "Obtener la lista de agentes completa sin filtro")]
         public async Task<IActionResult> List()
         {
             var response = await Mediator.Send(new GetAllAgentsListQuery());
@@ -45,7 +47,9 @@ namespace RealStateWebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetById([FromRoute] string id)
+        [SwaggerOperation(Summary = "Obtiene un agente por su Id",
+                          Description = "Obtener los detalles de un agente específico utilizando su Id")]
+        public async Task<IActionResult> GetById(string id)
         {
             var response = await Mediator.Send(new GetAgentByIdQuery { Id = id });
 
@@ -64,7 +68,9 @@ namespace RealStateWebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAgentProperty([FromRoute] string id)
+        [SwaggerOperation(Summary = "Obtiene las propiedades asignadas a un agente",
+                          Description = "Obtener la lista de propiedades gestionadas por un agente específico")]
+        public async Task<IActionResult> GetAgentProperty(string id)
         {
             var response = await Mediator.Send(new GetAgentPropertiesQuery { AgentId = id });
 
@@ -84,7 +90,9 @@ namespace RealStateWebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> ChangeStatus([FromRoute] string id, [FromBody] ChangeAgentStatusCommand command)
+        [SwaggerOperation(Summary = "Cambia el estado de un agente (activo/inactivo)",
+                          Description = "Actualizar el estado de un agente específico utilizando su Id")]
+        public async Task<IActionResult> ChangeStatus(string id, [FromBody] ChangeAgentStatusCommand command)
         {
             command.Id = id;
             await Mediator.Send(command);
@@ -100,7 +108,9 @@ namespace RealStateWebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Delete([FromRoute] string id)
+        [SwaggerOperation(Summary = "Elimina un agente por Id",
+                          Description = "Eliminar un agente específico utilizando su Id")]
+        public async Task<IActionResult> Delete(string id)
         {
             await Mediator.Send(new DeleteAgentCommand { Id = id });
             return NoContent();

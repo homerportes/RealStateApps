@@ -1,9 +1,15 @@
 ﻿using MediatR;
 using RealStateApp.Core.Application.Exceptions;
 using RealStateApp.Core.Domain.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using System.Threading;
+
 using System.Threading.Tasks;
 
 namespace RealStateApp.Core.Application.Features.Improvement.Commands.DeleteImprovement
@@ -57,8 +63,9 @@ namespace RealStateApp.Core.Application.Features.Improvement.Commands.DeleteImpr
             var entity = await _improvementRepository.GetByIdAsync(request.Id);
 
             if (entity == null)
-                throw new ApiException("Entity not found with this id", (int)HttpStatusCode.NotFound);
+                throw new ApiException("Entity  not found with this id",(int)HttpStatusCode.NotFound);
 
+               
             // Eliminar la entidad
             await _improvementRepository.DeleteAsync(request.Id);
 

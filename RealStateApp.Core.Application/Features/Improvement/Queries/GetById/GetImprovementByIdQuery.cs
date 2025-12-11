@@ -6,7 +6,11 @@ using RealStateApp.Core.Application.Exceptions;
 using RealStateApp.Core.Domain.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
 using System.Threading;
+
 using System.Threading.Tasks;
 
 namespace RealStateApp.Core.Application.Features.Improvement.Queries.GetById
@@ -65,12 +69,11 @@ namespace RealStateApp.Core.Application.Features.Improvement.Queries.GetById
             // Obtener queryable incluyendo propiedades relacionadas
             var listEntitiesQuery = _improvementRepository.GetAllQueryWithInclude(new List<string> { "PropertyImprovements" });
 
-            // Buscar la entidad por Id
-            var entity = await listEntitiesQuery.FirstOrDefaultAsync(fd => fd.Id == request.Id, cancellationToken: cancellationToken);
+             var entity= await listEntitiesQuery.FirstOrDefaultAsync(fd=>fd.Id==request.Id, cancellationToken:cancellationToken);
+            if (entity == null) throw new ApiException("Entity Not found with this id",(int)HttpStatusCode.NotFound);
 
-            if (entity == null)
-                throw new ApiException("Entity Not found with this id");
 
+          
             // Mapear a DTO
             var dto = _mapper.Map<ImprovementDto>(entity);
             return dto;

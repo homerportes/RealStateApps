@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
 using RealStateApp.Core.Application.Dtos.User;
+using RealStateApp.Core.Application.Exceptions;
 using RealStateApp.Core.Application.Features.Property.Queries.GetByCode;
 using RealStateApp.Core.Application.Interfaces;
 using RealStateApp.Core.Application.Mappings.EntitiesAndDtos;
@@ -177,7 +178,7 @@ namespace RealStateApp.Unit.Tests.Features.Property.Queries
                 CancellationToken.None);
 
             // Assert
-            await act.Should().ThrowAsync<ArgumentException>()
+            await act.Should().ThrowAsync<ApiException>()
                 .WithMessage("El código de la propiedad es inválido");
         }
 

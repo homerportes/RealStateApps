@@ -2,8 +2,10 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RealStateApp.Core.Application.Dtos.Properties;
+using RealStateApp.Core.Application.Exceptions;
 using RealStateApp.Core.Application.Interfaces;
 using RealStateApp.Core.Domain.Interfaces;
+using System.Net;
 
 namespace RealStateApp.Core.Application.Features.Property.Queries.GetByCode
 {
@@ -46,7 +48,7 @@ namespace RealStateApp.Core.Application.Features.Property.Queries.GetByCode
                 .FirstOrDefaultAsync(p => p.Code == request.Code, cancellationToken);
 
             if (property == null)
-                return null;
+                throw new ApiException("El código de la propiedad es inválido",(int)HttpStatusCode.NotFound);
 
             var dto = _mapper.Map<PropertyApiDto>(property);
             

@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using RealStateApp.Core.Application.Dtos.Properties;
 using RealStateApp.Core.Application.Exceptions;
 using RealStateApp.Core.Domain.Interfaces;
+using System.Net;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
 
 namespace RealStateApp.Core.Application.Features.PropertyType.Queries.GetById
 {
@@ -72,12 +74,9 @@ namespace RealStateApp.Core.Application.Features.PropertyType.Queries.GetById
             // Obtenemos la query incluyendo la relación "Properties"
             var listEntitiesQuery = _repository.GetAllQueryWithInclude(new List<string> { "Properties" });
 
-            // Buscamos el PropertyType por Id
             var entity = await listEntitiesQuery.FirstOrDefaultAsync(fd => fd.Id == request.Id, cancellationToken: cancellationToken);
+            if (entity == null) throw new ApiException("Invalid Id",(int)HttpStatusCode.NotFound);
 
-            // Si no se encuentra, lanzamos excepción
-            if (entity == null)
-                throw new ApiException("Invalid Id");
 
             // Convertimos la entidad a DTO
             var dto = _mapper.Map<PropertyTypeDto>(entity);

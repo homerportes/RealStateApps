@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Features.Login.Commands;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RealStateWebApi.Controllers.v1
 {
@@ -24,6 +25,10 @@ namespace RealStateWebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+            Summary = "Iniciar sesión y obtener token JWT",
+            Description = "Permite a un usuario iniciar sesión proporcionando sus credenciales y recibe un token JWT para autenticación en futuras solicitudes."
+        )]
         public async Task<IActionResult> Login([FromBody] LoginCommand loginCommand)
         {
             if (!ModelState.IsValid)

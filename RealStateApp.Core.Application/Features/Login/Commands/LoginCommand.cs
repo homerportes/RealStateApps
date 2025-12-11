@@ -12,7 +12,10 @@ namespace RealStateApp.Core.Application.Features.Login.Commands
 {
     public class LoginCommand : IRequest<LoginResponseForApi>
     {
+        [JsonProperty("usuario")]
+
         public required string Username { get; set; }
+        [JsonProperty("contrasena")]
 
         public required string Password { get; set; }
     }

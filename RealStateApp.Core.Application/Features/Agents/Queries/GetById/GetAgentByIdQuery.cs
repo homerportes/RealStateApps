@@ -4,8 +4,10 @@ using RealStateApp.Core.Application.Dtos.User;
 using RealStateApp.Core.Application.Exceptions;
 using RealStateApp.Core.Application.Interfaces;
 using RealStateApp.Core.Domain.Interfaces;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+
 
 namespace RealStateApp.Core.Application.Features.Agents.Queries.GetById
 {
@@ -71,8 +73,13 @@ namespace RealStateApp.Core.Application.Features.Agents.Queries.GetById
             // Obtener el agente desde el servicio de usuarios
             var userBase = await _userService.GetById(request.Id ?? "");
 
+
+            if (userBase == null) 
+                throw new ApiException($"Agent not found with this Id",(int)HttpStatusCode.NotFound);
+
             if (userBase == null)
                 throw new ApiException("Agent not found with Id");
+
 
             // Obtener el conteo de propiedades del agente
             var propertiesCount = await _propertyRepository.GetAgentPropertiesCount(request.Id);

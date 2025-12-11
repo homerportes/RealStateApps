@@ -1,9 +1,15 @@
 ﻿using MediatR;
 using RealStateApp.Core.Application.Exceptions;
 using RealStateApp.Core.Domain.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using System.Threading;
+
 using System.Threading.Tasks;
 
 namespace RealStateApp.Core.Application.Features.Improvement.Commands.EditImprovement
@@ -75,7 +81,9 @@ namespace RealStateApp.Core.Application.Features.Improvement.Commands.EditImprov
             var getEntity = await _improvementRepository.GetByIdAsync(request.Id);
 
             if (getEntity == null)
-                throw new ApiException("Entity not found with Id", (int)HttpStatusCode.NotFound);
+                throw new ApiException("Entity not found with Id",(int)HttpStatusCode.NotFound);
+
+
 
             // Crear la entidad actualizada
             var entity = new Domain.Entities.Improvement

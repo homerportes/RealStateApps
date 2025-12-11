@@ -66,6 +66,9 @@ namespace RealStateApp.Core.Application.Features.Agents.Commands.ChangeStatus
             if (!operationStatus)
                 throw new ApiException("Entity Not found", HttpStatusCode.NotFound);
 
+
+            if (operationStatus == false) throw new ApiException("Entity Not found", (int)HttpStatusCode.NotFound);
+
             return Unit.Value;
         }
     }

@@ -7,8 +7,15 @@ namespace RealStateApp.Core.Application.Features.Agents.Queries.GetAgentProperti
         public GetAgentPropertiesQueryValidator()
         {
             RuleFor(x => x.AgentId)
-                .NotEmpty().WithMessage("Agent ID is required")
-                .NotNull().WithMessage("Agent ID is required");
+                .NotNull()
+                .WithMessage("Agent ID is required")
+
+                .NotEmpty()
+                .WithMessage("Agent ID is required")
+                .Must(id => Guid.TryParse(id, out _))
+                .WithMessage("Agent ID must be a valid GUID");
+
+              
         }
     }
 }

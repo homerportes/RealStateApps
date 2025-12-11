@@ -28,14 +28,14 @@ namespace RealStateApp.Core.Application.Features.Improvement.Commands.CreateImpr
         /// </summary>
         /// <example>Cámaras de seguridad</example>
         [SwaggerParameter(Description = "Nombre de la mejora")]
-        public required string Name { get; set; }
+        public  string? Name { get; set; }
 
         /// <summary>
         /// Descripción detallada de la mejora.
         /// </summary>
         /// <example>Sistema de vigilancia con cámaras en todas las entradas</example>
         [SwaggerParameter(Description = "Descripción de la mejora")]
-        public required string Description { get; set; }
+        public string? Description { get; set; }
     }
 
     /// <summary>
