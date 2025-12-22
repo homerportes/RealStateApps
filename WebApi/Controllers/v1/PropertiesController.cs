@@ -32,7 +32,15 @@ namespace RealStateWebApi.Controllers.v1
 
             return Ok(response);
         }
+        [HttpGet("with-details")]
+        [Authorize(Roles = "ADMIN,DEVELOPER")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+            Summary = "Obtiene todas las propiedades con detalles completos",
+            Description = "Devuelve una lista de todas las propiedades con información detallada (tipo, venta, mejoras)."
+        )]
         public async Task<IActionResult> GetAllWithInclude()
         {
             var response = await Mediator.Send(new GetAllPropertiesWithIncludeQuery());
